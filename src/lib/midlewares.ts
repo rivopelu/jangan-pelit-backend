@@ -1,12 +1,14 @@
 import { Hono } from "hono";
 import i18next from "i18next";
 import appRoutes from "../routes/_app.routes";
+import loggerMiddleware from "./logger-middleware";
 
 export default class InitMiddlewares {
   private app: Hono;
 
   constructor(app: Hono) {
     this.app = app;
+    this.setupMiddlewares();
     this.setupInternationalization();
     this.setupRoutes();
   }
@@ -20,5 +22,9 @@ export default class InitMiddlewares {
 
   private setupRoutes() {
     this.app.route("/api", appRoutes);
+  }
+
+  private setupMiddlewares() {
+    this.app.use("*", loggerMiddleware);
   }
 }
