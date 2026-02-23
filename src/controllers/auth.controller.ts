@@ -28,9 +28,14 @@ export class AuthController {
     const body: IReqSignUp = await c.req.json<IReqSignUp>();
     const data = await this.authService.verifySignIn(body);
     const accountData = this.accountService.getAccountData(data);
+    const accessToken = await this.authService.generateToken({
+      email: data.email,
+      role: data.role,
+      id: data.id,
+    });
     const response: IResSignIn = {
       account: accountData,
-      access_token: "123132",
+      access_token: accessToken,
     };
     return c.json(responseHelper.data(response));
   }

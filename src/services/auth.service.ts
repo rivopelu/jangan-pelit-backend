@@ -3,9 +3,12 @@ import AccountRepository from "../repositories/account.repository";
 import { BadRequestException } from "../lib/exception";
 import { t } from "i18next";
 import { StringHelper } from "../helper/string-helper";
-import type { NewAccount } from "../entities/account.entity";
+import type { AccountRoleType, NewAccount } from "../entities/account.entity";
 import DateHelper from "../helper/date-helper";
 import type { IReqSignIn } from "../types/request/IReqSignIn";
+import type { JWTPayload } from "hono/utils/jwt/types";
+import { sign, verify } from "hono/jwt";
+import { env } from "../configs/env";
 
 export default class AuthService {
   private accountRepository = new AccountRepository();
@@ -55,5 +58,27 @@ export default class AuthService {
     };
 
     await this.accountRepository.save(newAccount);
+  }
+
+  async generateToken(payload: {
+    id: string;
+    email: string;
+    role: AccountRoleType;
+  }): Promise<string> {
+    const now = Math.floor(Date.now() / 1000);
+    const expiresIn = 60 * 60 * 24 * 90;
+    const jwtPayload: JWTPayload = {
+      sub: payload.id,
+      email: payload.email,
+      role: payload.role,
+      iat: now,
+      exp: now + expiresIn,
+    };
+
+    return sign(jwtPayload, env.JWT_SECRET);
+  }
+
+  async verifyToken(token: string): Promise<JWTPayload> {
+    return verify(token, env.JWT_SECRET, "ES256");
   }
 }
