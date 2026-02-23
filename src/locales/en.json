@@ -11,6 +11,6 @@
   },
   "error": {
     "username_already_exist": "username already exist",
-    "error.email_already_exist": "email already exist"
+    "email_already_exist": "email already exist"
   }
 }

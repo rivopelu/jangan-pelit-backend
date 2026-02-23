@@ -1,11 +1,10 @@
 import type { IReqSignUp } from "../types/request/IReqSignUp";
 import AccountRepository from "../repositories/account.repository";
-import { BadRequestException, NotFoundException } from "../lib/exception";
+import { BadRequestException } from "../lib/exception";
 import { t } from "i18next";
 import { StringHelper } from "../helper/string-helper";
 import type { NewAccount } from "../entities/account.entity";
 import DateHelper from "../helper/date-helper";
-import { responseHelper } from "../lib/response-helper";
 
 export default class AuthService {
   private accountRepository = new AccountRepository();
@@ -35,6 +34,5 @@ export default class AuthService {
     };
 
     await this.accountRepository.save(newAccount);
-    return responseHelper.success();
   }
 }
