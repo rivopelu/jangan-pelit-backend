@@ -1,0 +1,7 @@
+# deps
+dist/
+node_modules/
+
+
+.idea/
+.env
