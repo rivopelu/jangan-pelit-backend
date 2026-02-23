@@ -1,4 +1,5 @@
 {
   "welcome": "Welcome to our API",
-  "error_not_found": "Resource not found"
+  "error_not_found": "Resource not found",
+  "ping": "pong"
 }
