@@ -4,10 +4,15 @@ import { env } from "./configs/env";
 import i18nConfig from "./configs/i18n.config";
 import InitMiddlewares from "./lib/midlewares";
 import logger from "./configs/logger";
+import { ErrorHandler } from "./lib/error-handler";
 
 const app = new Hono();
 const port = env.PORT || 8080;
+app.onError(ErrorHandler);
 
+app.get("/panic", () => {
+  throw new Error("Test Error");
+});
 new InitMiddlewares(app);
 
 app.get("/", (c) => {
@@ -19,7 +24,6 @@ async function bootstrap() {
   try {
     await i18nConfig();
 
-    // Jalankan server manual
     const server = Bun.serve({
       fetch: app.fetch,
       port: port,

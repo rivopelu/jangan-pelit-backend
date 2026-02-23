@@ -1,6 +1,7 @@
 import { zValidator } from "@hono/zod-validator";
 import type { MiddlewareHandler } from "hono";
 import type { ZodSchema } from "zod";
+import { responseHelper } from "./response-helper";
 
 export const validate = (schema: ZodSchema): MiddlewareHandler => {
   return zValidator("json", schema, (result, c) => {
@@ -8,14 +9,8 @@ export const validate = (schema: ZodSchema): MiddlewareHandler => {
       const firstError = result.error.issues[0];
       const errorKey = firstError?.message || "validation.failed";
       const translate = c.get("t");
-
-      return c.json(
-        {
-          success: false,
-          message: translate(errorKey),
-        },
-        400,
-      );
+      const message = translate(errorKey);
+      return c.json(responseHelper.error(message, 400));
     }
   }) as unknown as MiddlewareHandler;
 };

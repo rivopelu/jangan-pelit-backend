@@ -8,5 +8,9 @@
     "name_too_short": "Name must be at least 3 characters long",
     "username_too_short": "Username must be at least 3 characters long",
     "failed": "Validation failed"
+  },
+  "error": {
+    "username_already_exist": "username already exist",
+    "error.email_already_exist": "email already exist"
   }
 }
