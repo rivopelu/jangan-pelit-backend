@@ -10,6 +10,20 @@
   "rules": {
     "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": "warn",
-    "@typescript-eslint/no-explicit-any": "warn"
+    "@typescript-eslint/no-explicit-any": "warn",
+
+    // 1. Memaksa baris kosong antar method (class members)
+    "@typescript-eslint/lines-between-class-members": [
+      "error",
+      "always",
+      { "exceptAfterSingleLine": false }
+    ],
+
+    // 2. Memaksa baris kosong setelah kurung kurawal class "{"
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "method" },
+      { "blankLine": "always", "prev": "method", "next": "*" }
+    ]
   }
 }

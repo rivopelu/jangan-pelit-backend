@@ -12,4 +12,11 @@ export class AuthController {
     const body: IReqSignUp = await c.req.json<IReqSignUp>();
     return c.json(body);
   }
+
+  @Post("/sign-in")
+  @Middleware([validate(ValidationSignUp)])
+  async signIn(c: Context) {
+    const body: IReqSignUp = await c.req.json<IReqSignUp>();
+    return c.json(body);
+  }
 }
