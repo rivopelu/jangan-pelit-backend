@@ -1,0 +1,20 @@
+CREATE TABLE "account" (
+	"id" varchar(255) PRIMARY KEY NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"password" varchar(255),
+	"sign_up_type" varchar(50) DEFAULT 'EMAIL' NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"profile_picture" varchar(500),
+	"role" varchar(50) DEFAULT 'USER' NOT NULL,
+	"status" varchar(50) DEFAULT 'ACTIVE' NOT NULL,
+	"username" varchar(255) NOT NULL,
+	"active" boolean DEFAULT true NOT NULL,
+	"created_date" bigint NOT NULL,
+	"created_by" varchar(256) NOT NULL,
+	"updated_date" bigint,
+	"updated_by" varchar(256),
+	"deleted_date" bigint,
+	"deleted_by" varchar(256),
+	CONSTRAINT "account_email_unique" UNIQUE("email"),
+	CONSTRAINT "account_username_unique" UNIQUE("username")
+);
