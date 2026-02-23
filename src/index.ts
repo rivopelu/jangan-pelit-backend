@@ -23,7 +23,6 @@ app.get("/", (c) => {
 async function bootstrap() {
   try {
     await i18nConfig();
-
     const server = Bun.serve({
       fetch: app.fetch,
       port: port,

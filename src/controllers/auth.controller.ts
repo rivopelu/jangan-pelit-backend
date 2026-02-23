@@ -6,10 +6,13 @@ import { validate } from "../lib/validator";
 import { validationSignIn } from "../validation/validation-sign-in";
 import AuthService from "../services/auth.service";
 import { responseHelper } from "../lib/response-helper";
+import AccountService from "../services/account.service";
+import type { IResSignIn } from "../types/response/IResSignIn";
 
 @Controller("/auth")
 export class AuthController {
   private authService = new AuthService();
+  private accountService = new AccountService();
 
   @Post("/sign-up")
   @Middleware([validate(ValidationSignUp)])
@@ -23,6 +26,12 @@ export class AuthController {
   @Middleware([validate(validationSignIn)])
   async signIn(c: Context) {
     const body: IReqSignUp = await c.req.json<IReqSignUp>();
-    return c.json(body);
+    const data = await this.authService.verifySignIn(body);
+    const accountData = this.accountService.getAccountData(data);
+    const response: IResSignIn = {
+      account: accountData,
+      access_token: "123132",
+    };
+    return c.json(responseHelper.data(response));
   }
 }

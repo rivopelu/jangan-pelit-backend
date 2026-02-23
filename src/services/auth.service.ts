@@ -5,9 +5,30 @@ import { t } from "i18next";
 import { StringHelper } from "../helper/string-helper";
 import type { NewAccount } from "../entities/account.entity";
 import DateHelper from "../helper/date-helper";
+import type { IReqSignIn } from "../types/request/IReqSignIn";
 
 export default class AuthService {
   private accountRepository = new AccountRepository();
+
+  async verifySignIn(data: IReqSignIn) {
+    const account = await this.accountRepository.findByEmail(data.email);
+
+    if (!account) {
+      throw new BadRequestException(t("error.sign_in_failed"));
+    }
+
+    const verifyPassword = await Bun.password.verify(
+      data.password,
+      account.password,
+    );
+
+    if (!verifyPassword) {
+      throw new BadRequestException(t("error.sign_in_failed"));
+    }
+
+    return account;
+  }
+
   async createNewAccount(data: IReqSignUp) {
     const checkUsername = await this.accountRepository.existByUsername(
       data.username,

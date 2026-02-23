@@ -1,5 +1,9 @@
 import { db } from "../database/database";
-import { AccountEntity, type NewAccount } from "../entities/account.entity";
+import {
+  type Account,
+  AccountEntity,
+  type NewAccount,
+} from "../entities/account.entity";
 import { and, eq } from "drizzle-orm";
 
 export default class AccountRepository {
@@ -28,7 +32,29 @@ export default class AccountRepository {
     return data.length > 0;
   }
 
+  async findByEmail(email: string): Promise<Account> {
+    const data = await db
+      .select()
+      .from(AccountEntity)
+      .where(
+        and(eq(AccountEntity.email, email), eq(AccountEntity.active, true)),
+      )
+      .limit(1);
+
+    return data[0];
+  }
+
   async save(account: NewAccount) {
     await db.insert(AccountEntity).values(account);
+  }
+
+  async findById(id: string) {
+    const data = await db
+      .select()
+      .from(AccountEntity)
+      .where(and(eq(AccountEntity.id, id), eq(AccountEntity.active, true)))
+      .limit(1);
+
+    return data[0];
   }
 }
