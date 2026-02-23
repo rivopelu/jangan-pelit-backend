@@ -1,10 +1,11 @@
 import { Hono } from "hono";
 import pingRoutes from "./ping.routes";
-import authRoutes from "./auth.routes";
+import { registerControllers } from "hono-decorators";
+import { AuthController } from "../controllers/auth.controller";
 
 const appRoutes = new Hono();
 
 appRoutes.route("/ping", pingRoutes);
-appRoutes.route("/auth", authRoutes);
+registerControllers([AuthController], appRoutes);
 
 export default appRoutes;

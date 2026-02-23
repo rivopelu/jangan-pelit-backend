@@ -6,17 +6,13 @@
     "verbatimModuleSyntax": true,
     "emitDeclarationOnly": false,
     "skipLibCheck": true,
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "outDir": "./dist",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
-  "exclude": [
-    "node_modules",
-    "vitest.config.ts",
-    "tests/**/*"
-  ]
+  "exclude": ["node_modules", "vitest.config.ts", "tests/**/*"]
 }

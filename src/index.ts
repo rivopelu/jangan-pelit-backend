@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { Hono } from "hono";
 import { env } from "./configs/env";
 import i18nConfig from "./configs/i18n.config";

@@ -1,7 +1,8 @@
 import { zValidator } from "@hono/zod-validator";
+import type { MiddlewareHandler } from "hono";
 import type { ZodSchema } from "zod";
 
-export const validate = (schema: ZodSchema) => {
+export const validate = (schema: ZodSchema): MiddlewareHandler => {
   return zValidator("json", schema, (result, c) => {
     if (!result.success && "error" in result) {
       const firstError = result.error.issues[0];
@@ -16,5 +17,5 @@ export const validate = (schema: ZodSchema) => {
         400,
       );
     }
-  });
+  }) as unknown as MiddlewareHandler;
 };
