@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import i18next from "i18next";
 import appRoutes from "../routes/_app.routes";
 import loggerMiddleware from "./logger-middleware";
+import corsConfig from "../configs/cors.config";
 
 export default class InitMiddlewares {
   private app: Hono;
@@ -26,5 +27,6 @@ export default class InitMiddlewares {
 
   private setupMiddlewares() {
     this.app.use("*", loggerMiddleware);
+    this.app.use("*", corsConfig);
   }
 }

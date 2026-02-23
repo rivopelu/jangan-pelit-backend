@@ -1,5 +1,12 @@
 {
   "welcome": "Welcome to our API",
   "error_not_found": "Resource not found",
-  "ping": "pong"
+  "ping": "pong",
+  "validation": {
+    "invalid_email": "Please enter a valid email address",
+    "password_too_short": "Password must be at least 6 characters long",
+    "name_too_short": "Name must be at least 3 characters long",
+    "username_too_short": "Username must be at least 3 characters long",
+    "failed": "Validation failed"
+  }
 }
