@@ -1,4 +1,8 @@
-import type { BaseResponse } from "../types/response/base-response";
+import type {
+  BaseResponse,
+  IPaginationDataResponse,
+} from "../types/response/base-response";
+import type { IPaginationQuery } from "../types/type/IPaginationParams";
 
 export class responseHelper {
   static success(message?: string): BaseResponse<null> {
@@ -11,20 +15,21 @@ export class responseHelper {
 
   static paginated<T>(
     data: T,
-    totalData: number,
-    page: number,
-    size: number,
-    message: string = "success",
+    paginatedData: {
+      page: number;
+      size: number;
+      totalData: number;
+    },
   ): BaseResponse<T> {
     return {
       success: true,
-      message,
+      message: "success",
       response_data: data,
       paginated_data: {
-        page,
-        size,
-        total_data: totalData,
-        page_count: Math.ceil(totalData / size),
+        page: paginatedData.page,
+        size: paginatedData.size,
+        total_data: paginatedData.totalData,
+        page_count: Math.ceil(paginatedData.totalData / paginatedData.size),
       },
     };
   }

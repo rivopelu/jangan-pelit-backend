@@ -1,6 +1,6 @@
 import type { Context } from "hono";
 import type { IReqSignUp } from "../types/request/IReqSignUp";
-import { Controller, Middleware, Post } from "hono-decorators";
+import { Controller, Get, Middleware, Post } from "hono-decorators";
 import { ValidationSignUp } from "../validation/validation-sign-up";
 import { validate } from "../lib/validator";
 import { validationSignIn } from "../validation/validation-sign-in";
@@ -8,6 +8,8 @@ import AuthService from "../services/auth.service";
 import { responseHelper } from "../lib/response-helper";
 import AccountService from "../services/account.service";
 import type { IResSignIn } from "../types/response/IResSignIn";
+import jwtMiddleware from "../middlewares/jwt-middleware";
+import { getAccountId } from "../lib/utils";
 
 @Controller("/auth")
 export class AuthController {
@@ -38,5 +40,13 @@ export class AuthController {
       access_token: accessToken,
     };
     return c.json(responseHelper.data(response));
+  }
+
+  @Get("/me")
+  @Middleware([jwtMiddleware])
+  async getMe(c: Context) {
+    const accountId = getAccountId(c);
+    const accountData = await this.accountService.getAccountDataById(accountId);
+    return c.json(responseHelper.data(accountData));
   }
 }

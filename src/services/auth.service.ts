@@ -79,6 +79,6 @@ export default class AuthService {
   }
 
   async verifyToken(token: string): Promise<JWTPayload> {
-    return verify(token, env.JWT_SECRET, "ES256");
+    return verify(token, env.JWT_SECRET, "HS256");
   }
 }

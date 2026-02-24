@@ -3,10 +3,12 @@ export interface BaseResponse<T> {
   message: string;
   response_data?: T;
   errors?: any;
-  paginated_data?: {
-    page: number;
-    size: number;
-    total_data: number;
-    page_count: number;
-  };
+  paginated_data?: IPaginationDataResponse;
+}
+
+export interface IPaginationDataResponse {
+  page: number;
+  size: number;
+  total_data: number;
+  page_count: number;
 }
